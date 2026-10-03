@@ -58,13 +58,13 @@ def transform_documents(profile:dict)-> list:
         documents.append({
         "user_id": user_id,
         "content": (
-          f"prefered work environment: {profile['workEnvironment']}\n",
-          f"prefered work location: {profile['workLocation']}\n",
-          f"job level: {profile['jobLevel']}\n",
-          f"job availability: {profile['availability']}"
-       ),
-        "source": "preferences"
-    })
+        f"Preferred work environment: {profile['workEnvironment']}\n"
+        f"Preferred work location: {profile['workLocation']}\n"
+        f"Job level: {profile['jobLevel']}\n"
+        f"Job availability: {profile['availability']}"
+    ),
+    "source": "preferences"
+})
 
         return documents
     except Exception as e:
