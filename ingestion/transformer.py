@@ -1,27 +1,33 @@
-def transform_documents(candidate:dict)-> list:
+def transform_documents(profile:dict)-> list:
     try:
         documents = []
 
+        user_id = profile["userId"]
+
         documents.append({
-        "content": f"Skills: {', '.join(candidate['skills'])}",
+        "user_id": user_id,
+        "content": f"Skills: {', '.join(profile['skills'])}",
         "source": "skills"
     })
 
         documents.append({
+        "user_id":user_id,
         "content": (
-            f"University: {candidate['university']}\n"
-            f"Education: {candidate['education']}"
+            f"University: {profile['university']}\n"
+            f"Degree: {profile['degree']}"
         ),
         "source": "education"
     })
 
         documents.append({
-        "content": f"Certifications: {', '.join(candidate['certifications'])}",
+        "user_id": user_id,
+        "content": f"Certifications: {', '.join(profile['certifications'])}",
         "source": "certifications"
     })
 
-        for project in candidate["projects"]:
+        for project in profile["projects"]:
          documents.append({
+            "user_id": user_id,
             "content": (
                 f"Project: {project['name']}\n"
                 f"Description: {project['description']}\n"
@@ -31,18 +37,32 @@ def transform_documents(candidate:dict)-> list:
         })
 
         documents.append({
-        "content": f"Experience: {', '.join(candidate['experience'])}",
+        "user_id":user_id,
+        "content": f"Experience: {', '.join(profile['experience'])}",
         "source": "experience"
     })
 
         documents.append({
-        "content": f"Roles: {', '.join(candidate['prefered_roles'])}",
+        "user_id":user_id,
+        "content": f"Roles: {', '.join(profile['roles'])}",
         "source": "roles"
     })
 
         documents.append({
-        "content": f"Languages: {', '.join(candidate['languages'])}",
+        "user_id": user_id,
+        "content": f"Languages: {', '.join(profile['languages'])}",
         "source": "languages"
+    })
+
+        documents.append({
+        "user_id": user_id,
+        "content": (
+          f"prefered work environment: {profile['workEnvironment']}\n",
+          f"prefered work location: {profile['workLocation']}\n",
+          f"job level: {profile['jobLevel']}\n",
+          f"job availability: {profile['availability']}"
+       ),
+        "source": "preferences"
     })
 
         return documents

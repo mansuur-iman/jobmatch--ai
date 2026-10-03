@@ -1,9 +1,9 @@
 from vector_store.store import get_vector_store
 
 vector_store = get_vector_store()
-def retriever(job_description:str)-> str:
+def retriever(job_description:str, user_id:str)-> str:
     try:
-        results = vector_store.similarity_search(job_description, k=5)
+        results = vector_store.similarity_search(job_description, k=5, filter={"user_id": user_id})
 
         if not results:
             return f"No matching documents."

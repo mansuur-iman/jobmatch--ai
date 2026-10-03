@@ -5,7 +5,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 vector_store = get_vector_store()
 
 
-def process_documents(documents):
+def process_documents(documents:list[str])->list:
     try:
         langchain_documents = []
 
@@ -13,6 +13,7 @@ def process_documents(documents):
             langchain_document = Document(
                 page_content=document["content"],
                 metadata={
+                    "user_id": document["user_id"],
                     "source": document["source"]
                 }
             )
