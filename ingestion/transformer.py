@@ -36,8 +36,9 @@ def transform_documents(profile:dict)-> list:
             "source": "projects"
         })
 
-        documents.append({
-        "user_id":user_id,
+        if profile.get("experience"):
+         documents.append({
+        "user_id": user_id,
         "content": f"Experience: {', '.join(profile['experience'])}",
         "source": "experience"
     })
