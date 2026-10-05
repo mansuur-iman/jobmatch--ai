@@ -1,22 +1,18 @@
 from vector_store.store import get_vector_store
-from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+from services.job import get_unindexed_jobs
+from ingestion.transformer import transform_job
 
 vector_store = get_vector_store()
-def process_documents(documents:list[str])->list:
+async def process_documents()->list:
     try:
+        jobs = await get_unindexed_jobs()
+
         langchain_documents = []
 
-        for document in documents:
-            langchain_document = Document(
-                page_content=document["content"],
-                metadata={
-                    "user_id": document["user_id"],
-                    "source": document["source"]
-                }
-            )
-
-            langchain_documents.append(langchain_document)
+        for job in jobs:
+            document = transform_job(job)
+            langchain_documents.append(document)
 
         text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=500,
