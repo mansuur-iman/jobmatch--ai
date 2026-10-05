@@ -1,7 +1,13 @@
 from fastapi import APIRouter
-from controllers import match_controller
+from schemas.match import MatchRequest
+from agent.agent import match_agent
+
 match_route = APIRouter()
 
-@match_route.post("/match")
-def match():
-    return match_controller()
+@match_route.post("/api/v1/match")
+async def match(data:MatchRequest):
+    profile = data.profile
+    job = data.job
+
+    result =  await match_agent(profile, job)
+    return result

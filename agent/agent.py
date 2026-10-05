@@ -1,6 +1,11 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import SystemMessage, HumanMessage
 from langgraph.graph import START, StateGraph, MessagesState
+from schemas.match import JobMatchOutPut
+from dotenv import load_dotenv
+import json
+
+load_dotenv()
     # build prompt
 SYSTEM_PROMPT = """
 You are a job matching agent.
@@ -23,9 +28,10 @@ Only use the provided profile and job data.
 """
 
 llm  = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
+structured_llm = llm.with_structured_output(JobMatchOutPut)
 
 # call agent model with prompt
-def call_model(state:MessagesState)-> dict:
+async def call_model(state:MessagesState)-> dict:
     #remove existing system message
     non_system_messages = [
         message for message in state["messages"] if not isinstance(message, SystemMessage)
@@ -33,10 +39,10 @@ def call_model(state:MessagesState)-> dict:
     #create new system message
     messages = [SystemMessage(content=SYSTEM_PROMPT)] + non_system_messages
     #call model with system prompt
-    response = llm.invoke(messages)
+    response = await structured_llm.ainvoke(messages)
 
     return{
-        "messages": [response]
+        "messages": [HumanMessage(content=response.model_dump_json(), name="agent_output")]
     }
 #Build the agent graph
 graph = StateGraph(MessagesState)
@@ -45,10 +51,11 @@ graph.add_node("agent", call_model)
 graph.add_edge(START, "agent")
 app = graph.compile()
 
-def match_agent(profile:dict, job:dict)-> dict:
+async def match_agent(profile:dict, job:str)-> dict:
  message = HumanMessage(content=f"""candidate profile: {profile} job: {job}""")
 
- result = app.invoke({"messages" : [message]})
+ result = await app.ainvoke({"messages" : [message]})
  content = result["messages"][-1].content
+ structured_data = json.loads(content)
 
- return{"response": content}
+ return structured_data
