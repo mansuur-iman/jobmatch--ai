@@ -3,8 +3,6 @@ from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 vector_store = get_vector_store()
-
-
 def process_documents(documents:list[str])->list:
     try:
         langchain_documents = []
