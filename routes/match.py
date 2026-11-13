@@ -7,10 +7,10 @@ from schemas.match import JobMatchOutput, MatchRequest
 
 logger = logging.getLogger(__name__)
 
-router = APIRouter()
+match_route = APIRouter()
 
 
-@router.post("/match", response_model=JobMatchOutput)
+@match_route.post("/match", response_model=JobMatchOutput)
 async def match_profile(data: MatchRequest):
     try:
         return await match_profile_to_job(data.profile, data.job)
