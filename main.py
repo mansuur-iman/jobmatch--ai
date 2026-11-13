@@ -14,6 +14,6 @@ def health_check():
     }
 
 
-app.include_router(match_route)
-app.include_router(index_route)
-app.include_router(recommendation_route)
+app.include_router(match_route, prefix="/api/v1")
+app.include_router(index_route, prefix="/api/v1")
+app.include_router(recommendation_route, prefix="/api/v1")

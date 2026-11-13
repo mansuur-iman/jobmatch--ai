@@ -7,7 +7,7 @@ from schemas.match import JobMatchOutput, MatchRequest
 
 logger = logging.getLogger(__name__)
 
-router = APIRouter(prefix="/api/v1", tags=["match"])
+router = APIRouter()
 
 
 @router.post("/match", response_model=JobMatchOutput)

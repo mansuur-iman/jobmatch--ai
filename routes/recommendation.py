@@ -6,7 +6,7 @@ from schemas.recommendation import RecommendationRequest
 recommendation_route = APIRouter()
 
 store = get_vector_store();
-@recommendation_route.post("/api/v1/recommendations")
+@recommendation_route.post("/recommendation")
 def recommendation(data:RecommendationRequest):
  query = transform_profile(data.profile);
 

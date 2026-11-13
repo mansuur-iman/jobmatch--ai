@@ -4,7 +4,7 @@ from ingestion.ingest import ingest_job
 
 index_route = APIRouter()
 
-@index_route.post("/api/v1/jobs/index")
+@index_route.post("/jobs/index")
 def index_jobs(data:IndexRequest):
     indexed, failed = [], []
 
