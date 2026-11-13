@@ -1,24 +1,40 @@
 def transform_profile(profile: dict) -> str:
+    lines = []
+
+    def add(label: str, value: str):
+        if value:
+            lines.append(f"{label}: {value}")
+
+    add("Preferred Roles", ", ".join(profile.get("roles") or []))
+    add("Job Level", profile.get("jobLevel") or "")
+    add("Skills", ", ".join(profile.get("skills") or []))
+    add("Certifications", ", ".join(profile.get("certifications") or []))
+    add("Degree", profile.get("degree") or "")
+
     projects = profile.get("projects") or []
+    if projects:
+        lines.append("Projects:")
+        lines += [
+            f"- {p.get('name') or 'Unnamed project'}: {p.get('description') or ''}"
+            for p in projects
+        ]
 
-    project_text = "\n".join(
-        f"- {project.get('name', 'Unnamed project')}: "
-        f"{project.get('description', '')}"
-        for project in projects
-    )
+    experience = profile.get("experience") or []
+    if experience:
+        lines.append("Experience:")
+        lines += [
+            f"- {e.get('title') or ''} at {e.get('company') or ''}: {e.get('description') or ''}"
+            for e in experience
+        ]
 
-    content = (
-        f"University: {profile.get('university', 'Not specified')}\n"
-        f"Degree: {profile.get('degree', 'Not specified')}\n"
-        f"Skills: {', '.join(profile.get('skills') or [])}\n"
-        f"Work Environment: {profile.get('workEnvironment', 'Not specified')}\n"
-        f"Work Location: {profile.get('workLocation', 'Not specified')}\n"
-        f"Certifications: {', '.join(profile.get('certifications') or [])}\n"
-        f"Projects:\n{project_text}\n"
-        f"Languages: {', '.join(profile.get('languages') or [])}\n"
-        f"Job Level: {profile.get('jobLevel', 'Not specified')}\n"
-        f"Availability: {profile.get('availability', 'Not specified')}\n"
-        f"Preferred Roles: {', '.join(profile.get('roles') or [])}"
-    )
+    return "\n".join(lines)
 
-    return content
+
+def profile_filters(profile: dict) -> dict:
+    """Hard constraints for metadata filtering, not embedded."""
+    return {
+        "workEnvironment": profile.get("workEnvironment"),
+        "workLocation": profile.get("workLocation"),
+        "languages": profile.get("languages") or [],
+        "availability": profile.get("availability"),
+    }
