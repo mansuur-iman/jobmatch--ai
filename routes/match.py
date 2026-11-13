@@ -1,13 +1,19 @@
-from fastapi import APIRouter
-from schemas.match import MatchRequest
-from agent.agent import match_agent
+import logging
 
-match_route = APIRouter()
+from fastapi import APIRouter, HTTPException
 
-@match_route.post("/api/v1/match")
-async def match(data:MatchRequest):
-    profile = data.profile
-    job = data.job
+from agent.agent import match_profile_to_job
+from schemas.match import JobMatchOutput, MatchRequest
 
-    result =  await match_agent(profile, job)
-    return result
+logger = logging.getLogger(__name__)
+
+router = APIRouter(prefix="/api/v1", tags=["match"])
+
+
+@router.post("/match", response_model=JobMatchOutput)
+async def match_profile(data: MatchRequest):
+    try:
+        return await match_profile_to_job(data.profile, data.job)
+    except Exception:
+        logger.exception("Job match failed")
+        raise HTTPException(status_code=502, detail="Matching service failed")

@@ -2,9 +2,9 @@ from fastapi import APIRouter
 from schemas.jobs import IndexRequest
 from ingestion.ingest import ingest_job
 
-indexerRoute = APIRouter()
+index_route = APIRouter()
 
-@indexerRoute.post("/api/v1/jobs/index")
+@index_route.post("/api/v1/jobs/index")
 def index_jobs(data:IndexRequest):
     indexed, failed = [], []
 

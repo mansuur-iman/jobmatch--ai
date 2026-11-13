@@ -3,10 +3,10 @@ from vector_store.store import get_vector_store
 from vector_store.scoring import distance_to_score
 from ingestion.profile_transformer import transform_profile
 from schemas.recommendation import RecommendationRequest
-recommendationRoute = APIRouter()
+recommendation_route = APIRouter()
 
 store = get_vector_store();
-@recommendationRoute.post("/api/v1/recommendations")
+@recommendation_route.post("/api/v1/recommendations")
 def recommendation(data:RecommendationRequest):
  query = transform_profile(data.profile);
 
