@@ -1,0 +1,33 @@
+[
+  {
+    "id": "backend-junior-nairobi",
+    "notes": "Why these jobs are right for this profile (for your future self).",
+    "profile": {
+      "skills": ["Node.js", "TypeScript", "PostgreSQL"],
+      "roles": ["Backend Developer"],
+      "jobLevel": "Junior",
+      "certifications": [],
+      "degree": "BSc Computer Science",
+      "projects": [
+        { "name": "ChatApp", "description": "Real-time messaging app" }
+      ],
+      "experience": []
+    },
+    "relevant_job_ids": [
+      "REPLACE-WITH-REAL-JOB-ID-1",
+      "REPLACE-WITH-REAL-JOB-ID-2"
+    ],
+    "exclude_job_ids": []
+  },
+  {
+    "id": "data-analyst-example",
+    "notes": "Add 20 to 30 cases like this. Include a few awkward ones: sparse profile, career changer, niche skills.",
+    "profile": {
+      "skills": ["SQL", "Python", "Tableau"],
+      "roles": ["Data Analyst"],
+      "jobLevel": "Mid"
+    },
+    "relevant_job_ids": [],
+    "exclude_job_ids": []
+  }
+]
